@@ -66,7 +66,7 @@ class HikariCPCollector implements MultiCollector
    {
       Collection<GaugeSnapshot.GaugeDataPointSnapshot> gaugeDataPointSnapshots = new ArrayList<>();
       poolStatsMap.forEach((k, v) -> gaugeDataPointSnapshots.add(
-         new GaugeSnapshot.GaugeDataPointSnapshot(metricValueFunction.apply(v), Labels.of(k), null)
+         new GaugeSnapshot.GaugeDataPointSnapshot(metricValueFunction.apply(v), Labels.of("pool", k), null)
       ));
       return new GaugeSnapshot(new MetricMetadata(metric, help), gaugeDataPointSnapshots);
    }
