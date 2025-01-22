@@ -1,21 +1,18 @@
 package com.zaxxer.hikari.metrics.prometheus;
 
-import com.zaxxer.hikari.metrics.PoolStats;
-import io.prometheus.client.Collector;
-import io.prometheus.client.CollectorRegistry;
-import io.prometheus.metrics.model.registry.PrometheusRegistry;
-import io.prometheus.metrics.model.snapshots.MetricSnapshot;
-import io.prometheus.metrics.model.snapshots.MetricSnapshots;
-import org.junit.After;
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Test;
+
+import com.zaxxer.hikari.metrics.PoolStats;
+
+import io.prometheus.metrics.model.registry.PrometheusRegistry;
+import io.prometheus.metrics.model.snapshots.MetricSnapshots;
 
 public class PrometheusHistogramMetricsTrackerFactoryTest {
 
