@@ -16,20 +16,22 @@
 
 package com.zaxxer.hikari.metrics.prometheus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+
 import com.zaxxer.hikari.metrics.PoolStats;
+
 import io.prometheus.metrics.model.registry.MultiCollector;
 import io.prometheus.metrics.model.snapshots.GaugeSnapshot;
 import io.prometheus.metrics.model.snapshots.Labels;
 import io.prometheus.metrics.model.snapshots.MetricMetadata;
 import io.prometheus.metrics.model.snapshots.MetricSnapshots;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-
-class HikariCPCollector implements MultiCollector
-{
-   private static final List<String> LABEL_NAMES = Collections.singletonList("pool");
+class HikariCPCollector implements MultiCollector {
 
    private final Map<String, PoolStats> poolStatsMap = new ConcurrentHashMap<>();
 
