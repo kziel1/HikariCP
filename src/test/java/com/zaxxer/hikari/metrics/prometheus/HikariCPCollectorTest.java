@@ -28,6 +28,9 @@ import java.util.List;
 import com.zaxxer.hikari.metrics.PoolStats;
 import io.prometheus.metrics.model.registry.MultiCollector;
 import io.prometheus.metrics.model.registry.PrometheusRegistry;
+import io.prometheus.metrics.model.snapshots.DataPointSnapshot;
+import io.prometheus.metrics.model.snapshots.GaugeSnapshot;
+import io.prometheus.metrics.model.snapshots.GaugeSnapshot.GaugeDataPointSnapshot;
 import io.prometheus.metrics.model.snapshots.MetricSnapshots;
 import org.junit.Before;
 import org.junit.Test;
@@ -187,7 +190,7 @@ public class HikariCPCollectorTest
       collectorRegistry.register(hikariCPCollector);
 
       assertThat(metrics.size(), is(6));
-//      assertThat(metrics.stream().filter(metricFamilySamples -> metricFamilySamples.type == Collector.Type.GAUGE).count(), is(6L));
+      assertThat((metrics.stream().filter(metricSnapshot -> metricSnapshot instanceof GaugeSnapshot)).count(), is(6L));
       assertThat(getValue("hikaricp_active_connections", "collectorTestPool"), is(58.0));
       assertThat(getValue("hikaricp_idle_connections", "collectorTestPool"), is(42.0));
       assertThat(getValue("hikaricp_pending_threads", "collectorTestPool"), is(1.0));
@@ -200,7 +203,7 @@ public class HikariCPCollectorTest
    {
       String[] labelNames = {"pool"};
       String[] labelValues = {poolName};
-      return this.collectorRegistry.getSampleValue(name, labelNames, labelValues);
+      return Samples.getSampleValue(collectorRegistry, name, labelNames, labelValues);
    }
 
    private PoolStats poolStatsWithPredefinedValues()

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.Test;
 
+import com.zaxxer.hikari.metrics.IMetricsTracker;
 import com.zaxxer.hikari.metrics.PoolStats;
 
 import io.prometheus.metrics.model.registry.PrometheusRegistry;
@@ -21,16 +22,18 @@ public class PrometheusHistogramMetricsTrackerFactoryTest {
       PrometheusRegistry collectorRegistry = new PrometheusRegistry();
       PrometheusHistogramMetricsTrackerFactory factory =
          new PrometheusHistogramMetricsTrackerFactory(collectorRegistry);
-      factory.create("testpool-1", poolStats());
+      IMetricsTracker iMetricsTracker = factory.create("testpool-1", poolStats());
       assertHikariMetricsAreNotPresent(PrometheusRegistry.defaultRegistry);
       assertHikariMetricsArePresent(collectorRegistry);
+      iMetricsTracker.close();
    }
 
    @Test
    public void registersToDefaultCollectorRegistry() {
       PrometheusHistogramMetricsTrackerFactory factory = new PrometheusHistogramMetricsTrackerFactory();
-      factory.create("testpool-2", poolStats());
+      IMetricsTracker iMetricsTracker = factory.create("testpool-2", poolStats());
       assertHikariMetricsArePresent(PrometheusRegistry.defaultRegistry);
+      iMetricsTracker.close();
    }
 
    @After

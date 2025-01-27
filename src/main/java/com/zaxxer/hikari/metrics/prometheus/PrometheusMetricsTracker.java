@@ -33,7 +33,7 @@ import static com.zaxxer.hikari.metrics.prometheus.PrometheusMetricsTrackerFacto
 class PrometheusMetricsTracker implements IMetricsTracker
 {
    private final static Counter CONNECTION_TIMEOUT_COUNTER = Counter.builder()
-      .name("hikaricp_connection_timeout_total")
+      .name("hikaricp_connection_timeout")
       .labelNames("pool")
       .help("Connection timeout total count")
       .register();
