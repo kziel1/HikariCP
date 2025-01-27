@@ -36,11 +36,6 @@ public class PrometheusHistogramMetricsTrackerFactoryTest {
       iMetricsTracker.close();
    }
 
-   @After
-   public void clearCollectorRegistry(){
-//      PrometheusRegistry.defaultRegistry.clear();
-   }
-
    private void assertHikariMetricsArePresent(PrometheusRegistry collectorRegistry) {
       List<String> registeredMetrics = toMetricNames(collectorRegistry.scrape());
       assertTrue(registeredMetrics.contains("hikaricp_active_connections"));

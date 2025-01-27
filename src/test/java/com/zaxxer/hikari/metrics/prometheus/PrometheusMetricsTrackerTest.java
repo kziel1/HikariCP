@@ -117,14 +117,14 @@ public class PrometheusMetricsTrackerTest
       String[] labelValuesSecondPool = {configSecondPool.getPoolName()};
 
       try (HikariDataSource ignoredFirstPool = new HikariDataSource(configFirstPool)) {
-//         assertThat(Samples.getSampleValue(defaultCollectorRegistry,
-//            "hikaricp_connection_timeout_total", LABEL_NAMES, labelValuesFirstPool),
-//            is(0.0));
+         assertThat(Samples.getSampleValue(defaultCollectorRegistry,
+            "hikaricp_connection_timeout", LABEL_NAMES, labelValuesFirstPool),
+            is(0.0));
 
          try (HikariDataSource ignoredSecondPool = new HikariDataSource(configSecondPool)) {
-//            assertThat(Samples.getSampleValue(defaultCollectorRegistry,
-//               "hikaricp_connection_timeout_total", LABEL_NAMES, labelValuesSecondPool),
-//               is(0.0));
+            assertThat(Samples.getSampleValue(defaultCollectorRegistry,
+               "hikaricp_connection_timeout", LABEL_NAMES, labelValuesSecondPool),
+               is(0.0));
          }
       }
    }
@@ -292,14 +292,14 @@ public class PrometheusMetricsTrackerTest
          );
          assertNotNull(sum);
 
-//         for (String quantileLabelValue : QUANTILE_LABEL_VALUES) {
-//            Double quantileValue = Samples.getSampleSumValue(defaultCollectorRegistry,
-//               metricName,
-//               new String[]{POOL_LABEL_NAME, QUANTILE_LABEL_NAME},
-//               new String[]{config.getPoolName(), quantileLabelValue}
-//            );
-//            assertNotNull("q = " + quantileLabelValue, quantileValue);
-//         }
+         for (String quantileLabelValue : QUANTILE_LABEL_VALUES) {
+            Double quantileValue = Samples.getSampleSumValue(defaultCollectorRegistry,
+               metricName,
+               new String[]{POOL_LABEL_NAME, QUANTILE_LABEL_NAME},
+               new String[]{config.getPoolName(), quantileLabelValue}
+            );
+            assertNull("q = " + quantileLabelValue, quantileValue);
+         }
       }
    }
 }

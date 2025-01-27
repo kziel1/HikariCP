@@ -10,14 +10,9 @@ import io.prometheus.metrics.model.snapshots.GaugeSnapshot.GaugeDataPointSnapsho
 import io.prometheus.metrics.model.snapshots.HistogramSnapshot.HistogramDataPointSnapshot;
 import io.prometheus.metrics.model.snapshots.Labels;
 import io.prometheus.metrics.model.snapshots.MetricSnapshots;
-import io.prometheus.metrics.model.snapshots.SummarySnapshot;
 import io.prometheus.metrics.model.snapshots.SummarySnapshot.SummaryDataPointSnapshot;
 
 public class Samples {
-	static Double getSampleValue(PrometheusRegistry registry, String name) {
-		return getSampleValue(registry, name, new String[0], new String[0]);
-	}
-	
 	private static DataPointSnapshot getSnapshotValue(PrometheusRegistry registry, String name, String[] labelNames, String[] labelValues) {
 		MetricSnapshots metricSnapshots = registry.scrape(s -> s.equals(name));
 		Labels labels = Labels.of(labelNames, labelValues);
@@ -39,28 +34,31 @@ public class Samples {
 	
 	static Double getSampleValue(PrometheusRegistry registry, String name, String[] labelNames, String[] labelValues) {
 		return switch (getSnapshotValue(registry, name, labelNames, labelValues)) {
-			case GaugeDataPointSnapshot gauge ->  gauge.getValue();
+			case GaugeDataPointSnapshot gauge -> gauge.getValue();
 			case CounterDataPointSnapshot counter -> counter.getValue();
 			case null -> null;
-			default -> throw new IllegalStateException("Unexpected snapshot value: " + getSnapshotValue(registry, name, labelNames, labelValues));
+			default ->
+					throw new IllegalStateException("Unexpected snapshot value: " + getSnapshotValue(registry, name, labelNames, labelValues));
 		};
 	}
 	
 	static Long getSampleCountValue(PrometheusRegistry registry, String name, String[] labelNames, String[] labelValues) {
 		return switch (getSnapshotValue(registry, name, labelNames, labelValues)) {
-			case HistogramDataPointSnapshot histogram ->  histogram.getCount();
+			case HistogramDataPointSnapshot histogram -> histogram.getCount();
 			case SummaryDataPointSnapshot summary -> summary.getCount();
 			case null -> null;
-			default -> throw new IllegalStateException("Unexpected snapshot value: " + getSnapshotValue(registry, name, labelNames, labelValues));
+			default ->
+					throw new IllegalStateException("Unexpected snapshot value: " + getSnapshotValue(registry, name, labelNames, labelValues));
 		};
 	}
 	
 	static Double getSampleSumValue(PrometheusRegistry registry, String name, String[] labelNames, String[] labelValues) {
 		return switch (getSnapshotValue(registry, name, labelNames, labelValues)) {
-			case HistogramDataPointSnapshot histogram ->  histogram.getSum();
+			case HistogramDataPointSnapshot histogram -> histogram.getSum();
 			case SummaryDataPointSnapshot summary -> summary.getSum();
 			case null -> null;
-			default -> throw new IllegalStateException("Unexpected snapshot value: " + getSnapshotValue(registry, name, labelNames, labelValues));
+			default ->
+					throw new IllegalStateException("Unexpected snapshot value: " + getSnapshotValue(registry, name, labelNames, labelValues));
 		};
 	}
 }

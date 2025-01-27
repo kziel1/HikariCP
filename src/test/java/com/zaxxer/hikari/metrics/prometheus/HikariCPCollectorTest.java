@@ -19,25 +19,22 @@ package com.zaxxer.hikari.metrics.prometheus;
 import static com.zaxxer.hikari.pool.TestElf.newHikariConfig;
 import static com.zaxxer.hikari.util.UtilityElf.quietlySleep;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 
 import java.sql.Connection;
-import java.util.List;
 
-import com.zaxxer.hikari.metrics.PoolStats;
-import io.prometheus.metrics.model.registry.MultiCollector;
-import io.prometheus.metrics.model.registry.PrometheusRegistry;
-import io.prometheus.metrics.model.snapshots.DataPointSnapshot;
-import io.prometheus.metrics.model.snapshots.GaugeSnapshot;
-import io.prometheus.metrics.model.snapshots.GaugeSnapshot.GaugeDataPointSnapshot;
-import io.prometheus.metrics.model.snapshots.MetricSnapshots;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.metrics.PoolStats;
 import com.zaxxer.hikari.mocks.StubConnection;
+
+import io.prometheus.metrics.model.registry.PrometheusRegistry;
+import io.prometheus.metrics.model.snapshots.GaugeSnapshot;
+import io.prometheus.metrics.model.snapshots.MetricSnapshots;
 
 public class HikariCPCollectorTest
 {

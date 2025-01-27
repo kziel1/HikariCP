@@ -17,13 +17,6 @@ import io.prometheus.metrics.model.snapshots.MetricSnapshots;
 
 public class PrometheusMetricsTrackerFactoryTest
 {
-
-   @After
-   public void clearCollectorRegistry()
-   {
-//      PrometheusRegistry.defaultRegistry.clear();
-   }
-
    @Test
    public void registersToProvidedCollectorRegistry()
    {
@@ -35,14 +28,14 @@ public class PrometheusMetricsTrackerFactoryTest
       iMetricsTracker.close();
    }
 
-//   @Test
-//   public void registersToDefaultCollectorRegistry()
-//   {
-//      PrometheusMetricsTrackerFactory factory = new PrometheusMetricsTrackerFactory();
-//      IMetricsTracker iMetricsTracker = factory.create("testpool-2", new StubPoolStats(0));
-//      assertHikariMetricsArePresent(PrometheusRegistry.defaultRegistry);
-//      iMetricsTracker.close();
-//   }
+   @Test
+   public void registersToDefaultCollectorRegistry()
+   {
+      PrometheusMetricsTrackerFactory factory = new PrometheusMetricsTrackerFactory();
+      IMetricsTracker iMetricsTracker = factory.create("testpool-2", new StubPoolStats(0));
+      assertHikariMetricsArePresent(PrometheusRegistry.defaultRegistry);
+      iMetricsTracker.close();
+   }
 
    private void assertHikariMetricsArePresent(PrometheusRegistry collectorRegistry)
    {
